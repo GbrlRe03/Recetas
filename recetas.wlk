@@ -1,49 +1,43 @@
-object paella{
-  var tieneMariscos = true
+import Recetas.estaciones.*
 
-  method puntosOtorgados() = if(tieneMariscos) 8 else 6
-
-  method esVegetariana() = not tieneMariscos
-
-  method agregarMariscos(){
-    tieneMariscos = true
+object paella {
+  var puntosOtorgados = 0
+  method puntosOtorgados() = puntosOtorgados
+  var esAptoVegetariano = false
+  method esAptoVegetariano() = esAptoVegetariano
+  method conMarisco(){
+    puntosOtorgados = 8
+    esAptoVegetariano = false
   }
-
-  method quitarMariscos(){
-    tieneMariscos = false
+  method sinMarisco(){
+    puntosOtorgados = 6
+    esAptoVegetariano = true
   }
-
 }
 
-object risotto{
-  var ingredientePrincipal = hongos
-
-  method puntosOtorgados() = ingredientePrincipal.puntos()
-
-  method esVegetariana() = ingredientePrincipal.vegetariano()
-
-  method cambiarIngrediente(nuevoIng){ingredientePrincipal = nuevoIng}
-}
-
-object hongos{
-  method puntos() = if(estacionDelAño.esPrimavera()) 16 else 12
-
-  method vegetariano() = true
-
-}
-object estacionDelAño{
+object risotto {
+  var puntosOtorgados = 0
+  method puntosOtorgados() = puntosOtorgados
+  var esAptoVegetariano = true
+  method esAptoVegetariano() = esAptoVegetariano
   var esPrimavera = true
-
-  method esPrimavera() = esPrimavera
-  method llegoPrimavera(){esPrimavera = true}
-  method terminoPrimavera(){esPrimavera = false}
+  method conHongos(){
+    if (esPrimavera){
+      puntosOtorgados = 16
+    }
+    else{
+      puntosOtorgados = 12
+    }
+    esAptoVegetariano = true
+  }
+  method conPollo(){
+    puntosOtorgados = 8
+    esAptoVegetariano = false
+  }
 }
-object pollo{
-  method puntos() = 8
-  method vegetariano() = false
-}
 
-object ensalada{
-  method puntosOtorgados() = 10
-  method esVegetariana() = true
+object ensalada {
+  var puntosOtorgados = 10
+  method puntosOtorgados() = puntosOtorgados
+  method esAptoVegetariano() = true
 }

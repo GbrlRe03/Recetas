@@ -1,84 +1,66 @@
-import recetas.*
+import Recetas.recetas.*
 
-object paulina{
-  var puntos = 0
-  const recetas = [ensalada,risotto]
+object paulina {
+  const recetasConocidas = [ensalada, risotto]
+  var puntosChef = 0
+  method puedeCocinar(receta)= recetasConocidas.contains(receta)
 
-  method puntos() = puntos
-
-  method puedeCocinar(unaReceta) = self.conoceReceta(unaReceta)
-
-  method cocinar(unaReceta){
-    if(self.puedeCocinar(unaReceta))
-      puntos = puntos + self.bonus(unaReceta)
-  }
-
-  method bonus(unaReceta){
-    if(unaReceta.esVegetariana()){
-      return unaReceta.puntosOtorgados()*2 
-    }else{
-      return unaReceta.puntosOtorgados()/2
+  method cocinar(receta){
+    if (receta.esAptoVegetariano() && recetasConocidas.contains(receta)){
+       puntosChef += receta.puntosOtorgados()*self.bonus(receta)
     }
+    
+}
+  method bonus(receta){
+    if (receta.esAptoVegetariano()){
+      return 2
+    }
+    else return 0.5
   }
-
-  method aprender(unaReceta){
-    if(unaReceta.esVegetariana() && !self.conoceReceta(unaReceta)) recetas.add(unaReceta)
-  }
-
-  method conoceReceta(unaReceta) = recetas.contains(unaReceta)
+   method aprenderReceta(receta){
+    if(receta.esAptoVegetariano()){
+      recetasConocidas.add(receta)
+    }
+   }
 }
 
-object remy{
-  var puntos = 0
-  var estaRatatouille = true
-  const recetas = [risotto,paella]
-
-  method puntos() = puntos
-
-  method puedeCocinar(unaReceta) = recetas.size() >= 2 && self.conoceReceta(unaReceta)
-
-  method cocinar(unaReceta){
-    if(self.puedeCocinar(unaReceta)){
-      puntos += unaReceta.puntosOtorgados() + self.bonus()
+object remy {
+  const recetasConocidas = [paella, risotto]
+  var puntosChef = 0
+  var estaRatatouille = false
+  method puedeCocinar(receta) = recetasConocidas.size()>1 && recetasConocidas.contains(receta)
+  method llamarRatatouille(){
+    estaRatatouille = true
     }
+  method bonus(receta) = if(estaRatatouille){
+    return 5
   }
-
-  method bonus() = if(estaRatatouille) 5 else 0
-
-  method llegoLaRata(){estaRatatouille = true}
-  method seFueLaRata(){estaRatatouille = false}
-
-  method aprender(unaReceta){
-    if(!recetas.contains(unaReceta))
-      recetas.add(unaReceta)
-  }
-
-  method conoceReceta(unaReceta) = recetas.contains(unaReceta)
+  else{ return 0
+    }
+  method cocinar(receta){
+   if (self.puedeCocinar(receta)){
+    puntosChef += receta.puntosOtorgados()+self.bonus(receta)
+   }
+    }
 }
 
-object christof{
-  var puntos = 0
-  var receta = paella
-  var ayudantes = 2
-
-  method puntos() = puntos
-  method receta() = receta
-
-  method puedeCocinar(unaReceta) = ayudantes.even() && puntos < 200 && self.conoceReceta(unaReceta)
-
-  method cocinar(unaReceta){
-    if(self.puedeCocinar(unaReceta)){
-      puntos += unaReceta.puntosOtorgados() + self.bonus()
+object christof {
+  const recetasConocidas =[paella]
+  var puntosChef=0
+  var ayudantes=2
+  method puedeCocinar(receta) = ayudantes.even()&&puntosChef <=200
+  method bonus(receta){
+    return ayudantes*2
+  }
+  method cocinar(receta){
+    if(self.puedeCocinar(receta)){
+      puntosChef+=receta.puntosOtorgados()+ self.bonus(receta)
     }
   }
-
-  method bonus() = ayudantes * 2
-
-  method aprender(unaReceta){
-    if(!self.conoceReceta(unaReceta))
-      receta = unaReceta
-      ayudantes += 1
+  method aprender(receta){
+    recetasConocidas.removeAll()
+    recetasConocidas.add(receta)
+    ayudantes+=1
   }
-
-  method conoceReceta(unaReceta) = unaReceta == receta
+  
 }
