@@ -13,6 +13,10 @@ object paella {
     puntosOtorgados = 6
     esAptoVegetariano = true
   }
+  method quitarMariscos(){
+    esAptoVegetariano = true
+  }
+  
 }
 
 object risotto {
@@ -34,6 +38,12 @@ object risotto {
     puntosOtorgados = 8
     esAptoVegetariano = false
   }
+ method llegaPrimavera(){
+  esPrimavera = true
+ }
+ method seVaPrimavera(){
+  esPrimavera = false
+ }
 }
 
 object ensalada {

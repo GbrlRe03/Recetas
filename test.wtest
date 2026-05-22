@@ -1,0 +1,57 @@
+import recetas.*
+import chefs.*
+import concurso.*
+
+describe "masterWollok"{
+
+  test "la paella otorga 8 puntos cuando tiene mariscos"{
+    paella.agregarMariscos()
+    assert.equals(8, paella.puntosOtorgados())
+  }
+
+  test "El risotto de hongos otorga 16 puntos en primavera"{
+    estacionDelAño.llegoPrimavera()
+    risotto.cambiarIngrediente(hongos)
+    assert.equals(16,risotto.puntosOtorgados())
+  }
+
+  test " Paulina obtiene 20 puntos luego de cocinar Ensalada."{
+    paulina.cocinar(ensalada)
+    assert.equals(20, paulina.puntos())
+  }
+
+  test " Remy obtiene 21 puntos al cocinar Risotto de hongos con Ratatouille."{
+    remy.llegoLaRata()
+    risotto.cambiarIngrediente(hongos)
+    remy.aprender(risotto)
+    remy.cocinar(risotto)
+    assert.equals(21,remy.puntos())
+  }
+
+  test "Christof después de aprender Ensalada no puede cocinarla"{
+    christof.aprender(ensalada)
+    assert.notThat(christof.puedeCocinar(ensalada))
+  }
+
+  test "Cuando Christof aprende Ensalada, olvida su receta anterior"{
+    christof.aprender(paella)
+    christof.aprender(ensalada)
+    assert.notThat(christof.conoceReceta(paella))
+  }
+
+  test " El concurso cuenta correctamente que hay 2 chefs que pueden cocinar Risotto"{
+    assert.equals(2, concurso.cantChefsQuePuedenCocinar(risotto))
+  }
+
+  test " La receta vegetariana con más puntos es el Risotto de hongos."{
+    risotto.cambiarIngrediente(hongos)
+    assert.equals(risotto,concurso.recetaVegetarianaDeMasPuntos())
+  }
+
+  test " Luego de preparar el concurso, que todos aprendan la paella y todos cocinen la paella, la ganadora del concurso es Paulina."{
+    concurso.prepararConcurso()
+    concurso.todosAprendenReceta(paella)
+    concurso.todosCocinanReceta(paella)
+    assert.equals(paulina, concurso.ganadorDelConcurso())
+  }
+}
